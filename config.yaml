@@ -1,13 +1,13 @@
 apiVersion: '2019-12-01'
 location: eastus
-name: sftp-storage-fileshare
+name: sftp-fileshare
 properties:
   containers:
-  - name: sftp-storage-fileshare
+  - name: sftp-fileshare
     properties:
       environmentVariables:
       - name: 'SFTP_USERS'
-        value: 'admin:admin:1001'
+        value: '<username>:<password>:1001'
       image: atmoz/sftp:latest
       ports:
       - port: 80
@@ -17,7 +17,7 @@ properties:
           cpu: 1.0
           memoryInGB: 2
       volumeMounts:
-      - mountPath: /home/shared/files/
+      - mountPath: /home/<username>/upload
         name: sftpvolume
         readOnly: False
   osType: Linux
