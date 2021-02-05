@@ -1,0 +1,40 @@
+apiVersion: '2019-12-01'
+location: eastus
+name: sftp-storage-fileshare
+properties:
+  containers:
+  - name: sftp-storage-fileshare
+    properties:
+      environmentVariables:
+      - name: 'SFTP_USERS'
+        value: 'admin:admin:1001'
+      image: atmoz/sftp:latest
+      ports:
+      - port: 80
+      - port: 22
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 2
+      volumeMounts:
+      - mountPath: /home/shared/files/
+        name: sftpvolume
+        readOnly: False
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    type: Private
+    ports:
+      - port: 80
+      - port: 22    
+  networkProfile:
+    id: <networkProfileId>
+  volumes:
+  - name: sftpvolume
+    azureFile:
+      readonly: False
+      sharename: sftp
+      storageAccountName: <storageAccountName>
+      storageAccountKey: <storageAccountKey>
+tags: {}
+type: Microsoft.ContainerInstance/containerGroups
